@@ -104,7 +104,7 @@ nav.main-nav a:hover, nav.main-nav a.active { color: var(--gold); text-decoratio
 .hero-slide.active { opacity: 1; }
 .hero-overlay {
   position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(180deg, rgba(20, 6, 9, .28), rgba(20, 6, 9, .42));
+  background: linear-gradient(180deg, rgba(20, 6, 9, 0), rgba(20, 6, 9, .12));
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-slide { transition: none; }
