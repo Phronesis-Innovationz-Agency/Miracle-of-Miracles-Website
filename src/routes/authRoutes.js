@@ -9,10 +9,10 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  const validUsername = username === process.env.ADMIN_USERNAME;
-  const validPassword =
-    process.env.ADMIN_PASSWORD_HASH &&
-    (await bcrypt.compare(password || '', process.env.ADMIN_PASSWORD_HASH));
+  const envUsername = (process.env.ADMIN_USERNAME || '').trim();
+  const envHash = (process.env.ADMIN_PASSWORD_HASH || '').trim();
+  const validUsername = username === envUsername;
+  const validPassword = envHash && (await bcrypt.compare(password || '', envHash));
 
   if (validUsername && validPassword) {
     req.session.isAdmin = true;
