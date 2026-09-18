@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-hero-text">
+        <span class="eyebrow" data-animate>Events</span>
+        <h1 data-animate>Missions, Outreach &amp; Special Events</h1>
+        <p data-animate>Gospel missions, hospital visits, community outreach, and other special activities happening at <%= church.shortName %>.</p>
+      </div>
+      <% if (pageImage) { %>
+        <div class="page-hero-photo" data-animate>
+          <img src="/images/gallery/<%= pageImage %>" alt="<%= church.shortName %> church life" loading="lazy" />
+        </div>
+      <% } %>
+    </div>
+
+    <h2 style="margin-top:32px;" data-animate>Upcoming</h2>
+    <% if (upcoming.length === 0) { %>
+      <p class="ink-soft">No upcoming events posted yet — check back soon.</p>
+    <% } else { %>
+      <div class="cards">
+        <% upcoming.forEach(function(e) { %>
+          <div class="card event-card" data-animate>
+            <% if (e.image_filename) { %>
+              <div class="event-photo">
+                <img src="/images/events/<%= e.image_filename %>" alt="<%= e.title %>"
+                     onerror="this.parentElement.classList.add('event-photo-fallback'); this.remove();"
+                     style="border-top-color: <%= categoryColor(e.category) %>;" />
+              </div>
+            <% } else { %>
+              <div class="event-photo event-photo-fallback" style="border-top-color: <%= categoryColor(e.category) %>;"></div>
+            <% } %>
+            <span class="event-badge" style="background: <%= categoryColor(e.category) %>;"><%= categoryLabel(e.category) %></span>
+            <h3><%= e.title %></h3>
+            <p class="event-meta">
+              <%= new Date(e.event_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+              <% if (e.event_time) { %> &middot; <%= e.event_time %><% } %>
+              <% if (e.location) { %><br/><%= e.location %><% } %>
+            </p>
+            <% if (e.description) { %><p><%= e.description %></p><% } %>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <% if (past.length > 0) { %>
+      <h2 style="margin-top:40px;" data-animate>Past Highlights</h2>
+      <div class="cards">
+        <% past.forEach(function(e) { %>
+          <div class="card event-card" data-animate>
+            <% if (e.image_filename) { %>
+              <div class="event-photo">
+                <img src="/images/events/<%= e.image_filename %>" alt="<%= e.title %>"
+                     onerror="this.parentElement.classList.add('event-photo-fallback'); this.remove();"
+                     style="border-top-color: <%= categoryColor(e.category) %>;" />
+              </div>
+            <% } else { %>
+              <div class="event-photo event-photo-fallback" style="border-top-color: <%= categoryColor(e.category) %>;"></div>
+            <% } %>
+            <span class="event-badge" style="background: <%= categoryColor(e.category) %>;"><%= categoryLabel(e.category) %></span>
+            <h3><%= e.title %></h3>
+            <p class="event-meta">
+              <%= new Date(e.event_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+              <% if (e.location) { %><br/><%= e.location %><% } %>
+            </p>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

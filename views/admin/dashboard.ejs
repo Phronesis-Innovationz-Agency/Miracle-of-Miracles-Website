@@ -1,0 +1,79 @@
+<%- include('./partials/header', { heading: 'Dashboard', subheading: 'An overview of registrations, giving, and site activity.' }) %>
+
+<div class="stat-row">
+  <div class="stat-box">
+    <div class="k">Total registrations</div>
+    <div class="v"><%= totalRegistrations %></div>
+  </div>
+  <div class="stat-box">
+    <div class="k">Total given (recorded)</div>
+    <div class="v">UGX <%= Number(totalGiving).toLocaleString() %></div>
+  </div>
+  <div class="stat-box">
+    <div class="k">Upcoming events</div>
+    <div class="v"><%= upcomingEventCount %></div>
+  </div>
+  <div class="stat-box">
+    <div class="k">Total page views</div>
+    <div class="v"><%= Number(totalViews).toLocaleString() %></div>
+  </div>
+</div>
+
+<div class="admin-actions-row">
+  <a class="btn btn-maroon" href="/admin/events/new">+ New event</a>
+  <a class="btn btn-ghost" style="border-color:var(--maroon);color:var(--maroon);" href="/admin/analytics">View analytics</a>
+</div>
+
+<div class="dashboard-grid">
+  <div class="mini-table-card">
+    <div class="mini-table-head">
+      <h3>Recent registrations</h3>
+      <a href="/admin/registrations">View all &rarr;</a>
+    </div>
+    <% if (recentRegs.length === 0) { %>
+      <p class="table-empty">No registrations yet.</p>
+    <% } else { %>
+      <div class="table-wrap" style="border:none;border-radius:0;">
+        <table>
+          <thead><tr><th>Name</th><th>Type</th><th>Date</th></tr></thead>
+          <tbody>
+            <% recentRegs.forEach(function(r) { %>
+              <tr>
+                <td><%= r.full_name %></td>
+                <td><%= r.reg_type === 'foundation_school' ? 'Foundation School' : (r.department || 'Department') %></td>
+                <td><%= new Date(r.created_at).toLocaleDateString() %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="mini-table-card">
+    <div class="mini-table-head">
+      <h3>Recent giving</h3>
+      <a href="/admin/giving">View all &rarr;</a>
+    </div>
+    <% if (recentGiving.length === 0) { %>
+      <p class="table-empty">No giving records yet.</p>
+    <% } else { %>
+      <div class="table-wrap" style="border:none;border-radius:0;">
+        <table>
+          <thead><tr><th>Name</th><th>Fund</th><th>Amount</th></tr></thead>
+          <tbody>
+            <% recentGiving.forEach(function(g) { %>
+              <tr>
+                <td><%= g.giver_name %></td>
+                <td><%= g.fund_type %></td>
+                <td><%= g.amount_ugx ? Number(g.amount_ugx).toLocaleString() : '—' %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('./partials/footer') %>

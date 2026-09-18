@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="page-section watermark-section">
+  <div class="watermark-logo" aria-hidden="true" style="background-image:url('/images/logo.jpg');"></div>
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-hero-text">
+        <span class="eyebrow" data-animate>About us</span>
+        <h1 data-animate><%= church.name %></h1>
+        <p data-animate>We are a Christian ministry based along <%= church.address %>, gathered around the worship of God, the teaching of His Word, and a commitment to serve one another as a family of believers.</p>
+        <p data-animate>We currently meet for two Sunday services and a Friday service each week, alongside Foundation School for those wanting to grow deeper in their walk with Christ. Beyond our services, our members serve together across several departments — from ushering and worship to youth ministry and outreach — and we're in the middle of finishing our permanent church building on our own land.</p>
+      </div>
+      <% if (pageImage) { %>
+        <div class="page-hero-photo" data-animate>
+          <img src="/images/gallery/<%= pageImage %>" alt="<%= church.shortName %> church life" loading="lazy" />
+        </div>
+      <% } %>
+    </div>
+
+    <h2 style="margin-top:32px;" data-animate>What we're about</h2>
+    <% const aboutCards = [
+      { key: 'about-worship', title: 'Worship &amp; the Word', text: 'Christ-centered worship and teaching from Scripture at the heart of everything we do.' },
+      { key: 'about-family', title: 'Family &amp; fellowship', text: 'A church family where members are known, cared for, and given a place to serve.' },
+      { key: 'about-growth', title: 'Growth &amp; discipleship', text: 'Foundation School and department life to help every member grow in faith and calling.' },
+    ]; %>
+    <div class="cards">
+      <% aboutCards.forEach(function(c) { %>
+        <% const cImg = pickGalleryImage(c.key); %>
+        <div class="card program-card" data-animate>
+          <div class="program-card-img">
+            <% if (cImg) { %>
+              <img src="/images/gallery/<%= cImg %>" alt="" loading="lazy" />
+            <% } else { %>
+              <div class="program-card-img-empty"></div>
+            <% } %>
+          </div>
+          <div class="program-card-body">
+            <h3><%- c.title %></h3>
+            <p><%= c.text %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <div class="callout" data-animate>
+      <p style="margin:0;">Want to know more, or plan a visit? <a href="/contact">Reach out to us</a> — we'd love to hear from you.</p>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-hero-text">
+        <span class="eyebrow" data-animate>Register</span>
+        <h1 data-animate><img src="/images/foundation-school-logo.jpeg" alt="" class="fs-badge" onerror="this.style.display='none'" />Foundation School</h1>
+        <p data-animate>A new term just started last Sunday — Foundation School meets every Sunday, 2:00–3:00 PM. Fill in your details and we'll expect you.</p>
+      </div>
+      <div class="page-hero-photo" data-animate>
+        <img src="/images/foundation-school-poster.jpeg" alt="Foundation School — upcoming classes" loading="lazy"
+             onerror="this.closest('.page-hero-photo').style.display='none'" />
+      </div>
+    </div>
+
+    <% if (typeof error !== 'undefined') { %><div class="error-msg"><%= error %></div><% } %>
+
+    <form class="card-form" data-animate method="POST" action="/register/foundation-school">
+      <div class="field">
+        <label for="full_name">Full name</label>
+        <input type="text" id="full_name" name="full_name" required value="<%= typeof values !== 'undefined' ? (values.full_name || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="phone">Phone number</label>
+        <input type="tel" id="phone" name="phone" required value="<%= typeof values !== 'undefined' ? (values.phone || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="email">Email (optional)</label>
+        <input type="email" id="email" name="email" value="<%= typeof values !== 'undefined' ? (values.email || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="area">Area you live in (optional)</label>
+        <input type="text" id="area" name="area" value="<%= typeof values !== 'undefined' ? (values.area || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="notes">Anything else you'd like us to know (optional)</label>
+        <textarea id="notes" name="notes"><%= typeof values !== 'undefined' ? (values.notes || '') : '' %></textarea>
+      </div>
+      <button class="btn btn-maroon" type="submit">Register</button>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

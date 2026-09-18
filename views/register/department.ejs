@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-hero-text">
+        <span class="eyebrow" data-animate>Register</span>
+        <h1 data-animate>Join a Department</h1>
+        <p data-animate>Tell us which department you'd like to serve in, and we'll connect you with its leader.</p>
+      </div>
+      <% if (pageImage) { %>
+        <div class="page-hero-photo" data-animate>
+          <img src="/images/gallery/<%= pageImage %>" alt="<%= church.shortName %> church life" loading="lazy" />
+        </div>
+      <% } %>
+    </div>
+
+    <% if (typeof error !== 'undefined') { %><div class="error-msg"><%= error %></div><% } %>
+
+    <form class="card-form" data-animate method="POST" action="/register/department">
+      <div class="field">
+        <label for="department">Department</label>
+        <select id="department" name="department" required>
+          <option value="" disabled <%= !(typeof values !== 'undefined' && values.department) ? 'selected' : '' %>>Choose a department</option>
+          <% departments.forEach(function(d) { %>
+            <option value="<%= d.key %>" <%= (typeof values !== 'undefined' && values.department === d.key) ? 'selected' : '' %>><%= d.label %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="field">
+        <label for="full_name">Full name</label>
+        <input type="text" id="full_name" name="full_name" required value="<%= typeof values !== 'undefined' ? (values.full_name || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="phone">Phone number</label>
+        <input type="tel" id="phone" name="phone" required value="<%= typeof values !== 'undefined' ? (values.phone || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="email">Email (optional)</label>
+        <input type="email" id="email" name="email" value="<%= typeof values !== 'undefined' ? (values.email || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="area">Area you live in (optional)</label>
+        <input type="text" id="area" name="area" value="<%= typeof values !== 'undefined' ? (values.area || '') : '' %>" />
+      </div>
+      <button class="btn btn-maroon" type="submit">Register</button>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

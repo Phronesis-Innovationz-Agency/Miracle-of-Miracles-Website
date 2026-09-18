@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-hero-text">
+        <span class="eyebrow" data-animate>Departments</span>
+        <h1 data-animate>Serve &amp; Grow With Us</h1>
+        <p data-animate>Every member has a place to serve. Here's where you can plug in — this list can be edited any time to match what's actually running at <%= church.shortName %>.</p>
+      </div>
+      <% if (pageImage) { %>
+        <div class="page-hero-photo" data-animate>
+          <img src="/images/gallery/<%= pageImage %>" alt="<%= church.shortName %> church life" loading="lazy" />
+        </div>
+      <% } %>
+    </div>
+    <div class="cards">
+      <% departments.forEach(function(d) { %>
+        <% const isFoundationSchool = d.key === 'foundation_school'; %>
+        <% const dImg = isFoundationSchool ? null : pickGalleryImage(d.key); %>
+        <div class="card program-card" data-animate>
+          <div class="program-card-img<%= isFoundationSchool ? ' program-card-img-badge' : '' %>">
+            <% if (isFoundationSchool) { %>
+              <img class="img-contain" src="/images/foundation-school-logo.jpeg" alt="Foundation School logo" loading="lazy" />
+            <% } else if (dImg) { %>
+              <img src="/images/gallery/<%= dImg %>" alt="<%= d.label %>" loading="lazy" />
+            <% } else { %>
+              <div class="program-card-img-empty"></div>
+            <% } %>
+          </div>
+          <div class="program-card-body">
+            <h3><%= d.label %></h3>
+            <p><%= d.description %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    <div class="hero-cta" data-animate style="justify-content:flex-start;margin-top:26px;">
+      <a class="btn btn-maroon" href="/register/foundation-school">Join Foundation School</a>
+      <a class="btn btn-gold" href="/register/department">Join a Department</a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

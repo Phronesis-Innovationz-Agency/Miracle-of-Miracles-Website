@@ -1,0 +1,47 @@
+<%- include('./partials/header', { heading: 'Registrations', subheading: 'Everyone who signed up for Foundation School or a department.' }) %>
+
+<div class="stat-row">
+  <div class="stat-box">
+    <div class="k">Total</div>
+    <div class="v"><%= regCount.reduce(function(s, r) { return s + Number(r.n); }, 0) %></div>
+  </div>
+  <% regCount.forEach(function(r) { %>
+    <div class="stat-box">
+      <div class="k"><%= r.reg_type === 'foundation_school' ? 'Foundation School' : 'Departments' %></div>
+      <div class="v"><%= r.n %></div>
+    </div>
+  <% }) %>
+</div>
+
+<div class="filter-pills">
+  <a href="/admin/registrations" class="<%= !filterType ? 'active' : '' %>">All</a>
+  <a href="/admin/registrations?type=foundation_school" class="<%= filterType === 'foundation_school' ? 'active' : '' %>">Foundation School</a>
+  <a href="/admin/registrations?type=department" class="<%= filterType === 'department' ? 'active' : '' %>">Departments</a>
+</div>
+
+<% if (registrations.length === 0) { %>
+  <div class="admin-empty">No registrations yet.</div>
+<% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Type</th><th>Department</th><th>Name</th><th>Phone</th><th>Email</th><th>Area</th></tr>
+      </thead>
+      <tbody>
+        <% registrations.forEach(function(r) { %>
+          <tr>
+            <td><%= new Date(r.created_at).toLocaleDateString() %></td>
+            <td><%= r.reg_type === 'foundation_school' ? 'Foundation School' : 'Department' %></td>
+            <td><%= r.department || '—' %></td>
+            <td><%= r.full_name %></td>
+            <td><%= r.phone %></td>
+            <td><%= r.email || '—' %></td>
+            <td><%= r.area || '—' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include('./partials/footer') %>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="hero">
+  <% if (galleryImages.length > 0) { %>
+    <div class="hero-slideshow" aria-hidden="true">
+      <% galleryImages.forEach(function(img, i) { %>
+        <div class="hero-slide<%= i === 0 ? ' active' : '' %>" style="background-image:url('/images/gallery/<%= img %>');"></div>
+      <% }) %>
+    </div>
+    <div class="hero-overlay"></div>
+  <% } %>
+  <div class="container">
+    <h1 class="hero-anim" style="animation-delay:.05s;"><%= church.name %></h1>
+    <p class="verse hero-anim" style="animation-delay:.2s;">"What shall I return to the Lord for all His goodness to me?" — Psalm 116:12</p>
+    <p class="sub hero-anim" style="animation-delay:.35s;">Welcome home. Join us for worship, fellowship, and growth — every Sunday and Friday, along Mawanda Road, Mulago II.</p>
+    <div class="hero-cta hero-anim" style="animation-delay:.5s;">
+      <a class="btn btn-gold" href="/register/foundation-school">Join Foundation School</a>
+      <a class="btn btn-ghost" href="/give">Give / Partner</a>
+    </div>
+  </div>
+</section>
+<% if (galleryImages.length > 1) { %>
+<script>
+(function () {
+  var slides = document.querySelectorAll('.hero-slide');
+  if (slides.length < 2) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var current = 0;
+  setInterval(function () {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, 5000);
+})();
+</script>
+<% } %>
+
+<section class="page-section" style="background:var(--white);padding-bottom:40px;">
+  <div class="container">
+    <span class="eyebrow" data-animate>Service Times</span>
+    <h2 data-animate>Join Us for Worship</h2>
+    <div class="cards">
+      <% church.services.forEach(function(s) { %>
+        <% const sImg = (s.logo || s.photo || s.image) ? null : pickGalleryImage('service-' + s.name); %>
+        <div class="card program-card" data-animate>
+          <div class="program-card-img<%= s.logo ? ' program-card-img-badge' : '' %>">
+            <% if (s.logo) { %>
+              <img class="img-contain" src="<%= s.logo %>" alt="<%= s.name %>" loading="lazy" />
+            <% } else if (s.photo) { %>
+              <img src="<%= s.photo %>" alt="<%= s.name %>" loading="lazy"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+              <div class="program-card-img-empty" style="display:none;"></div>
+            <% } else if (s.image) { %>
+              <img src="/images/gallery/<%= s.image %>" alt="<%= s.name %>" loading="lazy" />
+            <% } else if (sImg) { %>
+              <img src="/images/gallery/<%= sImg %>" alt="<%= s.name %>" loading="lazy" />
+            <% } else { %>
+              <div class="program-card-img-empty"></div>
+            <% } %>
+          </div>
+          <div class="program-card-body">
+            <h3><%= s.name %></h3>
+            <p class="event-meta"><%= s.when %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="page-section">
+  <div class="container">
+    <span class="eyebrow">Welcome</span>
+    <h2>A place to belong and grow in faith</h2>
+    <p><%= church.shortName %> is a Christian ministry located along <%= church.address %>. We gather to worship, to be taught the Word, and to grow together as a family — and we'd love for you to be part of it.</p>
+    <% const introCards = [
+      { key: 'home-foundation', title: 'Foundation School', text: 'New here, or want to grow deeper in the faith? Foundation School meets every Sunday, 2:00–3:00 PM.', href: '/register/foundation-school', label: 'Register', logo: '/images/foundation-school-logo.jpeg' },
+      { key: 'home-departments', title: 'Get plugged in', text: 'From youth ministry to ushering to media, there\'s a department for you to serve in and grow with.', href: '/departments', label: 'See departments' },
+      { key: 'home-building', title: 'Our building project', text: 'We\'re finishing our permanent home — doors, windows, floor, ceiling, and office furnishing remain.', href: '/building-fund', label: 'Learn more' },
+    ]; %>
+    <div class="cards">
+      <% introCards.forEach(function(c) { %>
+        <% const cImg = c.logo ? null : pickGalleryImage(c.key); %>
+        <div class="card program-card" data-animate>
+          <div class="program-card-img<%= c.logo ? ' program-card-img-badge' : '' %>">
+            <% if (c.logo) { %>
+              <img class="img-contain" src="<%= c.logo %>" alt="<%= c.title %> logo" loading="lazy" />
+            <% } else if (cImg) { %>
+              <img src="/images/gallery/<%= cImg %>" alt="<%= c.title %>" loading="lazy" />
+            <% } else { %>
+              <div class="program-card-img-empty"></div>
+            <% } %>
+          </div>
+          <div class="program-card-body">
+            <h3><%= c.title %></h3>
+            <p><%= c.text %></p>
+            <p><a class="card-link" href="<%= c.href %>"><%= c.label %> &rarr;</a></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="page-section" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="container">
+    <span class="eyebrow" data-animate>Upcoming</span>
+    <h2 data-animate>Missions, Outreach &amp; Special Events</h2>
+    <% if (upcomingEvents.length === 0) { %>
+      <p>Gospel missions, hospital visits, and outreach activities will be posted here — <a href="/events">see the Events page</a>.</p>
+    <% } else { %>
+      <div class="cards">
+        <% upcomingEvents.forEach(function(e) { %>
+          <div class="card event-card" data-animate>
+            <% if (e.image_filename) { %>
+              <div class="event-photo">
+                <img src="/images/events/<%= e.image_filename %>" alt="<%= e.title %>"
+                     onerror="this.parentElement.classList.add('event-photo-fallback'); this.remove();"
+                     style="border-top-color: <%= categoryColor(e.category) %>;" />
+              </div>
+            <% } else { %>
+              <div class="event-photo event-photo-fallback" style="border-top-color: <%= categoryColor(e.category) %>;"></div>
+            <% } %>
+            <span class="event-badge" style="background: <%= categoryColor(e.category) %>;"><%= categoryLabel(e.category) %></span>
+            <h3><%= e.title %></h3>
+            <p class="event-meta"><%= new Date(e.event_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) %></p>
+          </div>
+        <% }) %>
+      </div>
+      <p style="margin-top:18px;"><a href="/events">See all events &rarr;</a></p>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

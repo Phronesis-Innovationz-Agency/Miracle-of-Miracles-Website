@@ -1,0 +1,169 @@
+<%
+  const chartW = 700, chartH = 200, padL = 40, padR = 10, padT = 10, padB = 26;
+  const plotW = chartW - padL - padR;
+  const plotH = chartH - padT - padB;
+  const baseY = padT + plotH;
+
+  function buildBars(data, valueKey) {
+    const n = data.length;
+    const maxVal = Math.max(1, ...data.map((d) => Number(d[valueKey])));
+    const slot = plotW / n;
+    return data.map((d, i) => {
+      const val = Number(d[valueKey]);
+      const barW = Math.min(24, slot - 4);
+      const h = (val / maxVal) * plotH;
+      const x = padL + i * slot + (slot - barW) / 2;
+      const y = baseY - h;
+      return { x, y, w: barW, h, val, label: d.label };
+    });
+  }
+  function barPath(bar) {
+    if (bar.h <= 0.5) return `M ${bar.x} ${baseY} L ${bar.x + bar.w} ${baseY}`;
+    const r = Math.min(4, bar.h, bar.w / 2);
+    return `M ${bar.x} ${baseY} L ${bar.x} ${bar.y + r} Q ${bar.x} ${bar.y} ${bar.x + r} ${bar.y} ` +
+           `L ${bar.x + bar.w - r} ${bar.y} Q ${bar.x + bar.w} ${bar.y} ${bar.x + bar.w} ${bar.y + r} L ${bar.x + bar.w} ${baseY} Z`;
+  }
+  function niceMax(n) {
+    if (n <= 5) return Math.max(1, n);
+    const pow = Math.pow(10, String(Math.floor(n)).length - 1);
+    return Math.ceil(n / pow) * pow;
+  }
+  function fmtUgx(n) {
+    return 'UGX ' + Number(n).toLocaleString('en-UG');
+  }
+
+  const viewBars = buildBars(viewsByDay, 'n');
+  const givingBars = buildBars(givingByDay, 'total');
+  const maxViews = niceMax(Math.max(...viewsByDay.map((d) => Number(d.n))));
+  const maxGiving = niceMax(Math.max(...givingByDay.map((d) => Number(d.total))));
+  const totalGiving30 = givingByDay.reduce((s, d) => s + Number(d.total), 0);
+  const viewLabelStep = Math.max(1, Math.ceil(viewBars.length / 8));
+  const givingLabelStep = Math.max(1, Math.ceil(givingBars.length / 8));
+%>
+<%- include('./partials/header', { heading: 'Analytics', subheading: 'Site traffic and giving/registration activity — approximate, cookie-session based, no personal data stored.' }) %>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="k">Total page views</div>
+        <div class="v"><%= Number(totals.total_views).toLocaleString() %></div>
+      </div>
+      <div class="stat-box">
+        <div class="k">Unique visitors (approx.)</div>
+        <div class="v"><%= Number(totals.unique_visitors).toLocaleString() %></div>
+      </div>
+      <div class="stat-box">
+        <div class="k">Given, last 30 days</div>
+        <div class="v"><%= fmtUgx(totalGiving30) %></div>
+      </div>
+      <div class="stat-box">
+        <div class="k">New registrations, last 30 days</div>
+        <div class="v"><%= newRegistrations %></div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Page views — last 14 days</h3>
+      <p class="chart-sub">Hover or tab through a bar for the exact count.</p>
+      <svg viewBox="0 0 <%= chartW %> <%= chartH %>" role="img" aria-label="Page views per day, last 14 days" style="width:100%;height:auto;">
+        <% [0, 0.5, 1].forEach(function(f) { %>
+          <line class="chart-axis-line" x1="<%= padL %>" x2="<%= chartW - padR %>" y1="<%= baseY - f * plotH %>" y2="<%= baseY - f * plotH %>" />
+          <text class="chart-tick" x="<%= padL - 6 %>" y="<%= baseY - f * plotH + 3 %>" text-anchor="end"><%= Math.round(maxViews * f) %></text>
+        <% }) %>
+        <% viewBars.forEach(function(bar, i) { %>
+          <path class="bar-mark" d="<%= barPath(bar) %>" fill="var(--maroon)" tabindex="0"
+                data-label="<%= bar.label %>" data-value="<%= bar.val.toLocaleString() %> view<%= bar.val === 1 ? '' : 's' %>">
+            <title><%= bar.label %>: <%= bar.val %> view<%= bar.val === 1 ? '' : 's' %></title>
+          </path>
+          <% if (i % viewLabelStep === 0) { %>
+            <text class="chart-tick" x="<%= bar.x + bar.w / 2 %>" y="<%= chartH - 6 %>" text-anchor="middle"><%= bar.label %></text>
+          <% } %>
+        <% }) %>
+      </svg>
+      <details class="table-toggle">
+        <summary>View as table</summary>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Day</th><th>Views</th></tr></thead>
+            <tbody>
+              <% viewsByDay.forEach(function(d) { %><tr><td><%= d.label %></td><td><%= d.n %></td></tr><% }) %>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <div class="chart-card">
+      <h3>Giving — last 30 days</h3>
+      <p class="chart-sub">Total logged giving per day, across all funds.</p>
+      <svg viewBox="0 0 <%= chartW %> <%= chartH %>" role="img" aria-label="Giving total per day, last 30 days" style="width:100%;height:auto;">
+        <% [0, 0.5, 1].forEach(function(f) { %>
+          <line class="chart-axis-line" x1="<%= padL %>" x2="<%= chartW - padR %>" y1="<%= baseY - f * plotH %>" y2="<%= baseY - f * plotH %>" />
+          <text class="chart-tick" x="<%= padL - 6 %>" y="<%= baseY - f * plotH + 3 %>" text-anchor="end"><%= Math.round((maxGiving * f) / 1000) %>K</text>
+        <% }) %>
+        <% givingBars.forEach(function(bar, i) { %>
+          <path class="bar-mark" d="<%= barPath(bar) %>" fill="var(--gold)" tabindex="0"
+                data-label="<%= bar.label %>" data-value="<%= fmtUgx(bar.val) %>">
+            <title><%= bar.label %>: <%= fmtUgx(bar.val) %></title>
+          </path>
+          <% if (i % givingLabelStep === 0) { %>
+            <text class="chart-tick" x="<%= bar.x + bar.w / 2 %>" y="<%= chartH - 6 %>" text-anchor="middle"><%= bar.label %></text>
+          <% } %>
+        <% }) %>
+      </svg>
+      <details class="table-toggle">
+        <summary>View as table</summary>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Day</th><th>Total</th></tr></thead>
+            <tbody>
+              <% givingByDay.forEach(function(d) { %><tr><td><%= d.label %></td><td><%= fmtUgx(d.total) %></td></tr><% }) %>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <div class="chart-card">
+      <h3>Top pages</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Page</th><th>Views</th></tr></thead>
+          <tbody>
+            <% topPages.forEach(function(p) { %><tr><td><%= p.path %></td><td><%= p.n %></td></tr><% }) %>
+            <% if (topPages.length === 0) { %><tr><td colspan="2">No visits recorded yet.</td></tr><% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+<div class="chart-tooltip" id="chart-tooltip"><span class="tt-value"></span> &middot; <span class="tt-label"></span></div>
+<script>
+(function () {
+  var tooltip = document.getElementById('chart-tooltip');
+  var valueEl = tooltip.querySelector('.tt-value');
+  var labelEl = tooltip.querySelector('.tt-label');
+  function show(e, target) {
+    valueEl.textContent = target.getAttribute('data-value') || '';
+    labelEl.textContent = target.getAttribute('data-label') || '';
+    var x = e.clientX, y = e.clientY;
+    if (e.type === 'focusin') {
+      var rect = target.getBoundingClientRect();
+      x = rect.left + rect.width / 2;
+      y = rect.top;
+    }
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+    tooltip.classList.add('visible');
+  }
+  function hide() { tooltip.classList.remove('visible'); }
+  document.querySelectorAll('.bar-mark').forEach(function (bar) {
+    bar.addEventListener('pointermove', function (e) { show(e, bar); });
+    bar.addEventListener('pointerenter', function (e) { show(e, bar); });
+    bar.addEventListener('pointerleave', hide);
+    bar.addEventListener('focusin', function (e) { show(e, bar); });
+    bar.addEventListener('focusout', hide);
+  });
+})();
+</script>
+
+<%- include('./partials/footer') %>

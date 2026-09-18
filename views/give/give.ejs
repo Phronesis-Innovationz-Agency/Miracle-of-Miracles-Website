@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-hero-text">
+        <span class="eyebrow" data-animate>Give / Partner</span>
+        <h1 data-animate>Give or Become a Partner</h1>
+        <p data-animate><%= church.buildingFund.verse %></p>
+      </div>
+      <% if (pageImage) { %>
+        <div class="page-hero-photo" data-animate>
+          <img src="/images/gallery/<%= pageImage %>" alt="<%= church.shortName %> church life" loading="lazy" />
+        </div>
+      <% } %>
+    </div>
+
+    <div class="give-option" data-animate>
+      <h3>Tithe, Offering &amp; Building Fund</h3>
+      <p>Send via Mobile Money to:</p>
+      <div class="amount-line"><%= church.giving.momoNumber %></div>
+      <p style="margin-top:14px;">Or bank transfer:</p>
+      <p style="margin:0;"><strong><%= church.giving.bankName %></strong><br/>Account: <%= church.giving.bankAccountNumber %><br/>Name: <%= church.giving.accountName %></p>
+    </div>
+
+    <div class="give-option" data-animate>
+      <h3>Become a Partner</h3>
+      <p>Partnership is a commitment to give regularly toward the ministry and the building project — the same Mobile Money or bank details above work for partnership giving too.</p>
+    </div>
+
+    <h2 style="margin-top:30px;">Let us know you gave</h2>
+    <p>After sending, tell us so we can thank God with you and keep a record — this also helps us track progress on the building fund.</p>
+
+    <% if (typeof error !== 'undefined') { %><div class="error-msg"><%= error %></div><% } %>
+
+    <form class="card-form" data-animate method="POST" action="/give">
+      <div class="field">
+        <label for="giver_name">Your name</label>
+        <input type="text" id="giver_name" name="giver_name" required value="<%= typeof values !== 'undefined' ? (values.giver_name || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="phone">Phone number (optional)</label>
+        <input type="tel" id="phone" name="phone" value="<%= typeof values !== 'undefined' ? (values.phone || '') : '' %>" />
+      </div>
+      <div class="field">
+        <label for="fund_type">What is this for?</label>
+        <select id="fund_type" name="fund_type" required>
+          <option value="tithe">Tithe</option>
+          <option value="offering">Offering</option>
+          <option value="building_fund">Building Fund</option>
+          <option value="partnership">Partnership</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="amount_ugx">Amount in UGX (optional)</label>
+        <input type="number" id="amount_ugx" name="amount_ugx" min="0" step="1" />
+      </div>
+      <div class="field">
+        <label for="momo_reference">Mobile Money reference / transaction ID (optional)</label>
+        <input type="text" id="momo_reference" name="momo_reference" />
+      </div>
+      <button class="btn btn-gold" type="submit">Confirm Giving</button>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/">
+      <img src="/images/logo.jpg" alt="<%= church.shortName %> logo" onerror="this.style.display='none'" />
+      <%= church.shortName %>
+    </a>
+    <nav class="main-nav">
+      <a href="/" class="<%= page === 'home' ? 'active' : '' %>">Home</a>
+      <a href="/about" class="<%= page === 'about' ? 'active' : '' %>">About</a>
+      <a href="/leadership" class="<%= page === 'leadership' ? 'active' : '' %>">Leadership</a>
+      <a href="/departments" class="<%= page === 'departments' ? 'active' : '' %>">Departments</a>
+      <a href="/events" class="<%= page === 'events' ? 'active' : '' %>">Events</a>
+      <a href="/building-fund" class="<%= page === 'building-fund' ? 'active' : '' %>">Building Fund</a>
+      <a href="/give" class="<%= page === 'give' ? 'active' : '' %>">Give</a>
+      <a href="/contact" class="<%= page === 'contact' ? 'active' : '' %>">Contact</a>
+    </nav>
+  </div>
+</header>

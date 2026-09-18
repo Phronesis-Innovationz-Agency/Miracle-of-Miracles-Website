@@ -1,0 +1,43 @@
+<aside class="admin-sidebar">
+  <div class="admin-brand">
+    <img src="/images/logo.jpg" alt="<%= church.shortName %> logo" onerror="this.style.display='none'" />
+    <div>
+      <strong><%= church.shortName %></strong>
+      <span>Admin</span>
+    </div>
+  </div>
+  <nav class="admin-nav">
+    <a href="/admin" class="<%= activeSection === 'dashboard' ? 'active' : '' %>">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="6" height="6" rx="1.2"/><rect x="11.5" y="2.5" width="6" height="6" rx="1.2"/><rect x="2.5" y="11.5" width="6" height="6" rx="1.2"/><rect x="11.5" y="11.5" width="6" height="6" rx="1.2"/></svg>
+      Dashboard
+    </a>
+    <a href="/admin/registrations" class="<%= activeSection === 'registrations' ? 'active' : '' %>">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="6.5" r="2.5"/><path d="M2.5 16c0-2.8 2-4.5 4.5-4.5s4.5 1.7 4.5 4.5"/><circle cx="14.5" cy="7" r="2"/><path d="M13 11.8c2 .2 3.5 1.7 3.5 4.2"/></svg>
+      Registrations
+    </a>
+    <a href="/admin/giving" class="<%= activeSection === 'giving' ? 'active' : '' %>">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 17s-6.5-4-6.5-8.6C3.5 5.7 5.3 4 7.4 4c1.1 0 2.1.5 2.6 1.4C10.5 4.5 11.5 4 12.6 4c2.1 0 3.9 1.7 3.9 4.4C16.5 13 10 17 10 17Z"/></svg>
+      Giving
+    </a>
+    <a href="/admin/events" class="<%= activeSection === 'events' ? 'active' : '' %>">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4" width="15" height="13" rx="1.5"/><path d="M2.5 8h15M6.5 2.5v3M13.5 2.5v3"/></svg>
+      Events
+    </a>
+    <a href="/admin/analytics" class="<%= activeSection === 'analytics' ? 'active' : '' %>">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17V9M8 17V4M13 17v-6M17.5 17H2.5"/></svg>
+      Analytics
+    </a>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <a href="/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 4H4v12h12v-4M12 3h5v5M8.5 11.5 17 3"/></svg>
+      View site
+    </a>
+    <form method="POST" action="/logout">
+      <button type="submit">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7.5 17H4.5a1.5 1.5 0 0 1-1.5-1.5v-11A1.5 1.5 0 0 1 4.5 3h3M13.5 14l4-4-4-4M17 10H7.5"/></svg>
+        Log out
+      </button>
+    </form>
+  </div>
+</aside>

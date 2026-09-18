@@ -1,0 +1,18 @@
+{
+  "name": "mmc-church-website",
+  "version": "1.0.0",
+  "description": "Website for Miracle of Miracles Ministries International (MMC) — built by Phronesis Innovationz Agency",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "hash-password": "node scripts/hash-password.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "pg": "^8.12.0"
+  }
+}

@@ -1,0 +1,33 @@
+<%- include('./partials/header', { heading: 'Giving Records', subheading: 'Every gift logged through the Give / Partner page.' }) %>
+
+<div class="stat-row">
+  <div class="stat-box"><div class="k">Grand total (recorded)</div><div class="v">UGX <%= Number(totals.grand_total).toLocaleString() %></div></div>
+  <div class="stat-box"><div class="k">Building Fund total</div><div class="v">UGX <%= Number(totals.building_fund_total).toLocaleString() %></div></div>
+</div>
+<p style="color:var(--ink-soft);font-size:.85rem;margin:-8px 0 18px;">Totals only include gifts where an amount was entered — many givers won't fill in an amount, so treat this as a partial picture, not the full ledger.</p>
+
+<% if (records.length === 0) { %>
+  <div class="admin-empty">No giving records yet.</div>
+<% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Name</th><th>Phone</th><th>Fund</th><th>Amount (UGX)</th><th>MoMo Ref</th></tr>
+      </thead>
+      <tbody>
+        <% records.forEach(function(r) { %>
+          <tr>
+            <td><%= new Date(r.created_at).toLocaleDateString() %></td>
+            <td><%= r.giver_name %></td>
+            <td><%= r.phone || '—' %></td>
+            <td><%= r.fund_type %></td>
+            <td><%= r.amount_ugx ? Number(r.amount_ugx).toLocaleString() : '—' %></td>
+            <td><%= r.momo_reference || '—' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include('./partials/footer') %>

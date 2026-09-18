@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-hero-text">
+        <span class="eyebrow" data-animate>Building Fund</span>
+        <h1 data-animate>Help Us Finish Our Home</h1>
+        <p class="verse" data-animate style="color:var(--maroon);font-style:italic;"><%= church.buildingFund.verse %></p>
+        <p data-animate>We are building on our own land, <%= church.buildingFund.landSize %>, along <%= church.address %>. By God's grace, a great deal of work is already done — and with your partnership, we're believing to finish what remains:</p>
+      </div>
+      <% if (pageImage) { %>
+        <div class="page-hero-photo" data-animate>
+          <img src="/images/gallery/<%= pageImage %>" alt="<%= church.shortName %> building project" loading="lazy" />
+        </div>
+      <% } %>
+    </div>
+    <div class="cards">
+      <% church.buildingFund.remainingWork.forEach(function(item) { %>
+        <div class="card"><p style="margin:0;"><%= item %></p></div>
+      <% }) %>
+    </div>
+    <div class="callout" data-animate>
+      <p style="margin:0 0 10px;"><strong>Every gift moves us closer to finishing this house of worship.</strong></p>
+      <a class="btn btn-gold" href="/give">Give to the Building Fund</a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

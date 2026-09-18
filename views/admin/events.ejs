@@ -1,0 +1,36 @@
+<%- include('./partials/header', { heading: 'Events', subheading: 'Gospel missions, outreach, hospital visits, and other special events.' }) %>
+
+<div class="admin-actions-row">
+  <a class="btn btn-maroon" href="/admin/events/new">+ New event</a>
+</div>
+
+<% if (events.length === 0) { %>
+  <div class="admin-empty">No events yet — create your first one.</div>
+<% } else { %>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Category</th><th>Title</th><th>Location</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% events.forEach(function(e) { %>
+          <tr>
+            <td><%= new Date(e.event_date).toLocaleDateString() %></td>
+            <td><%= e.category %></td>
+            <td><%= e.title %></td>
+            <td><%= e.location || '—' %></td>
+            <td>
+              <a href="/admin/events/<%= e.id %>/edit">Edit</a>
+              &middot;
+              <form method="POST" action="/admin/events/<%= e.id %>/delete" style="display:inline;" onsubmit="return confirm('Delete this event?');">
+                <button type="submit" style="background:none;border:none;padding:0;color:#a34a30;cursor:pointer;font:inherit;text-decoration:underline;">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include('./partials/footer') %>

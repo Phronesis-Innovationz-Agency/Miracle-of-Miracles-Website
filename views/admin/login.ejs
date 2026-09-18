@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head', { title: 'Admin Login · ' + church.shortName }) %></head>
+<body class="admin-body">
+
+<div class="admin-login-wrap">
+  <div>
+    <div class="admin-login-card">
+      <img src="/images/logo.jpg" alt="<%= church.shortName %> logo" onerror="this.style.display='none'" />
+      <h1>Admin Login</h1>
+      <p class="admin-login-sub">Sign in to manage <%= church.shortName %>'s registrations, giving, and events.</p>
+      <% if (typeof error !== 'undefined') { %><div class="error-msg"><%= error %></div><% } %>
+      <form method="POST" action="/login">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autofocus />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button class="btn btn-maroon" type="submit">Log in</button>
+      </form>
+    </div>
+    <a class="admin-login-back" href="/">&larr; Back to the website</a>
+  </div>
+</div>
+
+</body>
+</html>

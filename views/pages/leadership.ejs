@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('../partials/head') %></head>
+<body>
+<%- include('../partials/nav') %>
+
+<section class="page-section">
+  <div class="container">
+    <div class="page-hero">
+      <div class="page-hero-text">
+        <span class="eyebrow" data-animate>Leadership</span>
+        <h1 data-animate>Our Pastors &amp; Leaders</h1>
+        <p data-animate>The team shepherding <%= church.shortName %>.</p>
+      </div>
+      <% if (pageImage) { %>
+        <div class="page-hero-photo" data-animate>
+          <img src="/images/gallery/<%= pageImage %>" alt="<%= church.shortName %> church life" loading="lazy" />
+        </div>
+      <% } %>
+    </div>
+    <div class="cards">
+      <% church.leadership.forEach(function(l) { %>
+        <%
+          const initials = l.name.replace(/^(Pastor|Apostle)\s+/i, '').split(/\s+/).slice(0, 2).map(function(w) { return w[0]; }).join('').toUpperCase();
+        %>
+        <div class="card leader-card" data-animate>
+          <div class="avatar-wrap">
+            <img class="avatar-photo" src="/images/leadership/<%= l.photo %>" alt="<%= l.name %>"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="avatar-fallback" style="display:none;"><%= initials %></div>
+          </div>
+          <span class="role"><%= l.role %></span>
+          <h3><%= l.name %></h3>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h3><%= church.name %></h3>
+      <p style="margin-top:8px;max-width:340px;color:rgba(255,255,255,.72);"><%= church.address %>, <%= church.poBox %></p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <p style="margin-top:8px;">
+        <% church.phones.forEach(function(p) { %><%= p %><br/><% }) %>
+        <a href="https://wa.me/<%= church.whatsapp %>" target="_blank" rel="noopener">WhatsApp</a><br/>
+        <a href="mailto:<%= church.email %>"><%= church.email %></a>
+      </p>
+    </div>
+    <div>
+      <h3>Quick links</h3>
+      <p style="margin-top:8px;">
+        <a href="/give">Give / Partner</a><br/>
+        <a href="/register/foundation-school">Join Foundation School</a><br/>
+        <a href="/register/department">Join a Department</a>
+      </p>
+    </div>
+  </div>
+  <p class="foot-note"><span id="admin-trigger">&copy;</span> <%= new Date().getFullYear() %> <%= church.name %>. Website by Phronesis Innovationz Agency.</p>
+</footer>
+
+<%- include('whatsapp-button') %>
