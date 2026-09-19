@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: mmc-church-website
+    name: miracle-of-miracles-website
     runtime: node
     plan: free
     buildCommand: npm install
