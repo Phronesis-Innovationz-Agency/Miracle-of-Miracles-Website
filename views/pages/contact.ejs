@@ -28,7 +28,7 @@
       <div class="card">
         <h3>Phone</h3>
         <p>
-          <% church.phones.forEach(function(p) { %><%= p %><br/><% }) %>
+          <% church.phones.forEach(function(p) { %><span class="phone-line"><%- include('../partials/phone-icon') %><%= p %></span><% }) %>
         </p>
       </div>
       <div class="card">

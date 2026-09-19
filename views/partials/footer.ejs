@@ -7,7 +7,7 @@
     <div>
       <h3>Contact</h3>
       <p style="margin-top:8px;">
-        <% church.phones.forEach(function(p) { %><%= p %><br/><% }) %>
+        <% church.phones.forEach(function(p) { %><span class="phone-line"><%- include('phone-icon') %><%= p %></span><% }) %>
         <a href="https://wa.me/<%= church.whatsapp %>" target="_blank" rel="noopener">WhatsApp</a><br/>
         <a href="mailto:<%= church.email %>"><%= church.email %></a>
       </p>

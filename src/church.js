@@ -3,7 +3,7 @@ module.exports = {
   name: 'Miracle of Miracles Ministries International',
   shortName: 'MMC',
   address: 'Mawanda Road, Mulago II, opposite Kida Guest House',
-  poBox: 'P.O Box 595',
+  poBox: 'P.O Box 595, Kampala, Uganda',
   mapsQuery: 'Mawanda Road, Mulago II, Kampala, Uganda',
   phones: ['0754105347', '0759153564', '0782188613'],
   whatsapp: '256701964577',
