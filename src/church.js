@@ -8,6 +8,7 @@ module.exports = {
   phones: ['0754105347', '0759153564', '0782188613'],
   whatsapp: '256701964577',
   email: 'kizodanjr@gmail.com',
+  youtube: 'https://www.youtube.com/channel/UCQ899krc7UjQ-nQFwfYnIHA',
   leadership: [
     { name: 'Pastor Macklean Ashaba', role: 'Senior Pastor', photo: 'macklean-ashaba.jpg' },
     { name: 'Pastor Patrick Mwesigwa', role: 'Pastor', photo: 'patrick-mwesigwa.jpg' },

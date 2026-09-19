@@ -76,6 +76,12 @@ nav.main-nav a {
   padding: 6px 2px;
 }
 nav.main-nav a:hover, nav.main-nav a.active { color: var(--gold); text-decoration: none; }
+.header-social {
+  display: flex;
+  align-items: center;
+  color: rgba(255,255,255,.85);
+}
+.header-social:hover { color: var(--gold); }
 
 /* ---- Hero ---- */
 .hero {
